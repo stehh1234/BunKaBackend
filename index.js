@@ -34,16 +34,13 @@ app.use(
   })
 );
 
-//to make undisconnect db
 const db = mysql.createConnection({
   user: "usrldok6l26m1shb",
   host: "b49bwrnqfdny2lwumg8t-mysql.services.clever-cloud.com",
   password: "rvr1l2JFfU48xp7FD0NE",
-  database: "b49bwrnqfdny2lwumg8",
+  database: "b49bwrnqfdny2lwumg8t",
 });
-db.connect();
 
-//to register
 app.post("/register", (req, res) => {
   const username = req.body.username;
   const phone_number = req.body.phone_number;
@@ -65,10 +62,9 @@ app.post("/register", (req, res) => {
   });
 });
 
-// to login
 app.get("/login", (req, res) => {
   if (req.session.user) {
-    res.send({ loggedIn: true, user: req.session.user });
+    res.send({ loggedIn: true, user: req.session.user }); 
   } else {
     res.send({ loggedIn: false });
   }
@@ -79,7 +75,7 @@ app.post("/login", (req, res) => {
   const password = req.body.password;
 
   db.query(
-    "SELECT * FROM users_tbl WHERE phone_number = ?;", 
+    "SELECT * FROM users_tbl WHERE phone_number = ?;",
     phone_number,
     (err, result) => {
       if (err) {
@@ -102,12 +98,11 @@ app.post("/login", (req, res) => {
       }
     }
   );
-}); 
-
+});
 
 // to get data from json file store in mysql
 app.get("/userDetail", (req, res) => {
-    const sqlGet =  "SELECT * FROM users_tbl ORDER BY user_id DESC LIMIT 1;";
+    const sqlGet =  "SELECT * FROM users_tbl ORDER BY user_id DESC LIMIT 1;"; 
     db.query(sqlGet, (err, result) => {
       if (err) {
         res.send({ err: err });
@@ -117,7 +112,7 @@ app.get("/userDetail", (req, res) => {
     });
 });
 
-//post service
+
 app.post("/posts", (req, res) => {
   const service = req.body.service;
   const service_name = req.body.service_name;
@@ -125,18 +120,17 @@ app.post("/posts", (req, res) => {
   const description =  req.body.description;
   const image = req.body.image;
   const location_detail = req.body.location_detail;
-  const user_id = req.body.user_id;
 
     db.query(
-      "INSERT INTO post (service, service_name, price, description, image, location_detail, user_id) VALUES (?,?,?,?,?,?,?)",
-      [service, service_name, price, description, image, location_detail, user_id],
-      (err, result) => {   
+      "INSERT INTO post (service, service_name, price, description, image, location_detail) VALUES (?,?,?,?,?,?)",
+      [service, service_name, price, description, image, location_detail], 
+      (err, result) => {
         console.log(err);
-      } 
+      }
     );
-   
+  
 });
 
-app.listen(8800, () => {
-  console.log("running server on port 8800");
+app.listen(8700, () => {
+  console.log("running server on port 8700");
 });
