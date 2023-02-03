@@ -39,7 +39,7 @@ const db = mysql.createConnection({
   user: "usrldok6l26m1shb",
   host: "b49bwrnqfdny2lwumg8t-mysql.services.clever-cloud.com",
   password: "rvr1l2JFfU48xp7FD0NE",
-  database: "b49bwrnqfdny2lwumg8t",
+  database: "b49bwrnqfdny2lwumg8",
 });
 db.connect();
 
@@ -79,7 +79,7 @@ app.post("/login", (req, res) => {
   const password = req.body.password;
 
   db.query(
-    "SELECT * FROM users_tbl WHERE phone_number = ?;",
+    "SELECT * FROM users_tbl WHERE phone_number = ?;", 
     phone_number,
     (err, result) => {
       if (err) {
@@ -125,15 +125,16 @@ app.post("/posts", (req, res) => {
   const description =  req.body.description;
   const image = req.body.image;
   const location_detail = req.body.location_detail;
+  const user_id = req.body.user_id;
 
     db.query(
-      "INSERT INTO post (service, service_name, price, description, image, location_detail) VALUES (?,?,?,?,?,?)",
-      [service, service_name, price, description, image, location_detail],
-      (err, result) => {
+      "INSERT INTO post (service, service_name, price, description, image, location_detail, user_id) VALUES (?,?,?,?,?,?,?)",
+      [service, service_name, price, description, image, location_detail, user_id],
+      (err, result) => {   
         console.log(err);
-      }
+      } 
     );
-  
+   
 });
 
 app.listen(8800, () => {
